@@ -1,4 +1,5 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
+import {Router} from '@angular/router';
 import {Package, ShoppingCart, Edit, ClipboardList, LucideAngularModule} from 'lucide-angular';
 
 @Component({
@@ -10,8 +11,15 @@ import {Package, ShoppingCart, Edit, ClipboardList, LucideAngularModule} from 'l
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
+
   readonly Package = Package;
   readonly ShoppingCart = ShoppingCart;
   readonly Edit = Edit;
   readonly ClipboardList = ClipboardList;
+
+  private router: Router = inject(Router)
+
+  async navigateToProducts() {
+    await this.router.navigate(['/products']);
+  }
 }

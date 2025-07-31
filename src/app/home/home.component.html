@@ -10,7 +10,9 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
 
       <!-- STOCK Card -->
-      <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer transform hover:scale-105">
+      <div
+        class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer transform hover:scale-105"
+        (click)="navigateToProducts()">
         <div class="p-6 sm:p-8 text-center">
           <div class="w-16 h-16 sm:w-20 sm:h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <lucide-icon [img]="Package" class="text-blue-600" size="32"></lucide-icon>
@@ -21,9 +23,11 @@
       </div>
 
       <!-- COMPRAS Card -->
-      <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer transform hover:scale-105">
+      <div
+        class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer transform hover:scale-105">
         <div class="p-6 sm:p-8 text-center">
-          <div class="w-16 h-16 sm:w-20 sm:h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div
+            class="w-16 h-16 sm:w-20 sm:h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <lucide-icon [img]="ShoppingCart" class="text-green-600" size="32"></lucide-icon>
           </div>
           <h2 class="text-xl sm:text-2xl font-semibold text-gray-800 mb-2">COMPRAS</h2>
@@ -32,9 +36,11 @@
       </div>
 
       <!-- NOTAS Card -->
-      <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer transform hover:scale-105">
+      <div
+        class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer transform hover:scale-105">
         <div class="p-6 sm:p-8 text-center">
-          <div class="w-16 h-16 sm:w-20 sm:h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div
+            class="w-16 h-16 sm:w-20 sm:h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <lucide-icon [img]="Edit" class="text-yellow-600" size="32"></lucide-icon>
           </div>
           <h2 class="text-xl sm:text-2xl font-semibold text-gray-800 mb-2">NOTAS</h2>
@@ -43,9 +49,11 @@
       </div>
 
       <!-- PLAN Card -->
-      <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer transform hover:scale-105">
+      <div
+        class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer transform hover:scale-105">
         <div class="p-6 sm:p-8 text-center">
-          <div class="w-16 h-16 sm:w-20 sm:h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div
+            class="w-16 h-16 sm:w-20 sm:h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <lucide-icon [img]="ClipboardList" class="text-purple-600" size="32"></lucide-icon>
           </div>
           <h2 class="text-xl sm:text-2xl font-semibold text-gray-800 mb-2">PLAN</h2>
