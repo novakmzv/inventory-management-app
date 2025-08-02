@@ -9,3 +9,5 @@ export * from './services/product.service';
 export * from './services/batch.service';
 
 export * from './components';
+
+export * from './utils/date.utils';
