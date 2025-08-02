@@ -56,7 +56,6 @@ export class ListProductsComponent implements OnInit {
 
         this.products = structuredClone(response.data);
         this.loading = false;
-        this.showSuccessNotification('Productos cargados correctamente');
       },
       error: () => {
         this.loading = false;
@@ -109,6 +108,8 @@ export class ListProductsComponent implements OnInit {
         }
 
         this.showSuccessNotification('Producto eliminado correctamente');
+        this.loading = false;
+        this.loadProducts();
       },
       error: () => {
         this.loading = false;
