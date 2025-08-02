@@ -1,14 +1,15 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {LucideAngularModule, Plus, Edit, Trash2,Home} from 'lucide-angular';
+import {LucideAngularModule, Plus, Edit, Trash2, Home} from 'lucide-angular';
 import {Product, ProductService} from '../../../core';
 import {Router} from '@angular/router';
-import {LoadingOverlayComponent} from '../../../core/components/loading-overlay/loading-overlay.component';
+import {LoadingOverlayComponent, ConfirmationModalComponent} from '../../../core/components';
 
 @Component({
   selector: 'app-list-products',
   imports: [
     LucideAngularModule,
-    LoadingOverlayComponent
+    LoadingOverlayComponent,
+    ConfirmationModalComponent
   ],
   templateUrl: './list-products.component.html',
   styleUrl: './list-products.component.css'
@@ -24,8 +25,13 @@ export class ListProductsComponent implements OnInit {
   loading = false;
   error: string | null = null;
 
-  productService: ProductService = inject(ProductService);
-  router: Router = inject(Router);
+  showConfirmModal = false;
+  confirmMessage = '';
+  confirmType: 'danger' | 'warning' | 'info' = 'warning';
+  confirmAction: (() => void) | null = null;
+
+  _productService: ProductService = inject(ProductService);
+  _router: Router = inject(Router);
 
   ngOnInit() {
     this.loadProducts();
@@ -36,7 +42,7 @@ export class ListProductsComponent implements OnInit {
     this.loading = true;
     this.error = null;
 
-    this.productService.getProducts().subscribe({
+    this._productService.getProducts().subscribe({
       next: (response) => {
 
         if (response.code != 200) {
@@ -56,19 +62,38 @@ export class ListProductsComponent implements OnInit {
   }
 
   async navigateToCreate() {
-    await this.router.navigate(['/products/create']);
+    await this._router.navigate(['/products/create']);
   }
 
   async editProduct(id: number) {
-    await this.router.navigate(['/products/edit', id]);
+    await this._router.navigate(['/products/edit', id]);
   }
 
   async navigateToHome() {
-    await this.router.navigate(['/home']);
+    await this._router.navigate(['/home']);
   }
 
   deleteProduct(id: number, name: string) {
-    //todo: create confirm component
+    this.confirmMessage = `¿Estás seguro de que quieres eliminar "${name}"?`;
+    this.confirmType = 'danger';
+    this.confirmAction = () => this.confirmDeleteProduct(id);
+    this.showConfirmModal = true;
+  }
+
+  onConfirmAccept() {
+    if (this.confirmAction) {
+      this.confirmAction();
+    }
+    this.showConfirmModal = false;
+  }
+
+  onConfirmCancel() {
+    this.showConfirmModal = false;
+    this.confirmAction = null;
+  }
+
+  private confirmDeleteProduct(id: number) {
+
   }
 
   formatPrice(price: number): string {

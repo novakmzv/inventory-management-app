@@ -157,3 +157,14 @@
 </div>
 
 <app-loading-overlay [isBlock]="loading" message="Cargando productos..."></app-loading-overlay>
+
+<app-confirmation-modal
+  [show]="showConfirmModal"
+  [message]="confirmMessage"
+  [type]="confirmType"
+  title="Confirmar acción"
+  acceptText="Eliminar"
+  cancelText="Cancelar"
+  (accept)="onConfirmAccept()"
+  (cancel)="onConfirmCancel()">
+</app-confirmation-modal>
