@@ -1,0 +1,99 @@
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+
+  <!-- Nombre del producto -->
+  <div class="mb-6">
+    <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
+      Nombre del producto *
+    </label>
+    <input
+      type="text"
+      id="name"
+      formControlName="name"
+      [class]="'w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200 ' +
+               (isFieldInvalid('name') ? 'border-red-500 focus:ring-red-500' : 'border-gray-300')"
+      placeholder="Ej: Guanábana con leche">
+
+    @if (isFieldInvalid('name')) {
+      <p class="mt-1 text-sm text-red-600">{{ getFieldError('name') }}</p>
+    }
+  </div>
+
+  <!-- Cantidad -->
+  <div class="mb-6">
+    <label for="quantity" class="block text-sm font-medium text-gray-700 mb-2">
+      Cantidad en stock *
+    </label>
+    <input
+      type="number"
+      id="quantity"
+      formControlName="quantity"
+      min="0"
+      [class]="'w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200 ' +
+               (isFieldInvalid('quantity') ? 'border-red-500 focus:ring-red-500' : 'border-gray-300')"
+      placeholder="0">
+
+    @if (isFieldInvalid('quantity')) {
+      <p class="mt-1 text-sm text-red-600">{{ getFieldError('quantity') }}</p>
+    }
+  </div>
+
+  <!-- Precio -->
+  <div class="mb-6">
+    <label for="price" class="block text-sm font-medium text-gray-700 mb-2">
+      Precio de venta *
+    </label>
+    <div class="relative">
+      <span class="absolute left-3 top-2 text-gray-500">S/</span>
+      <input
+        type="number"
+        id="price"
+        formControlName="price"
+        step="0.01"
+        min="0.01"
+        [class]="'w-full pl-8 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200 ' +
+                 (isFieldInvalid('price') ? 'border-red-500 focus:ring-red-500' : 'border-gray-300')"
+        placeholder="0.00">
+    </div>
+
+    @if (isFieldInvalid('price')) {
+      <p class="mt-1 text-sm text-red-600">{{ getFieldError('price') }}</p>
+    }
+  </div>
+
+  <!-- Descripción -->
+  <div class="mb-8">
+    <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
+      Descripción (opcional)
+    </label>
+    <textarea
+      id="description"
+      formControlName="description"
+      rows="3"
+      [class]="'w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200 resize-none ' +
+               (isFieldInvalid('description') ? 'border-red-500 focus:ring-red-500' : 'border-gray-300')"
+      placeholder="Descripción adicional del producto..."></textarea>
+
+    @if (isFieldInvalid('description')) {
+      <p class="mt-1 text-sm text-red-600">{{ getFieldError('description') }}</p>
+    }
+  </div>
+
+  <!-- Botones -->
+  <div class="flex flex-col sm:flex-row gap-3 sm:justify-end">
+    <button
+      type="button"
+      (click)="onCancel()"
+      class="cursor-pointer w-full sm:w-auto px-6 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">
+      Cancelar
+    </button>
+
+    <button
+      type="submit"
+      [disabled]="loading"
+      class="cursor-pointer w-full sm:w-auto px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 flex items-center justify-center gap-2">
+      <lucide-icon [img]="Save" size="18"></lucide-icon>
+      <span>{{ submitButtonText }}</span>
+    </button>
+  </div>
+
+</form>
