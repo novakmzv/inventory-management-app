@@ -1,13 +1,12 @@
 <div class="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
-  <!-- Header -->
+
   <header class="mb-8 text-center">
     <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">Dashboard</h1>
     <p class="text-gray-600 text-sm sm:text-base">Sistema de gestión de inventario</p>
   </header>
 
-  <!-- Dashboard Grid -->
-  <div class="max-w-4xl mx-auto">
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
 
       <!-- STOCK Card -->
       <div
@@ -22,12 +21,38 @@
         </div>
       </div>
 
+      <!-- LOTES Card -->
+      <div
+        class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer transform hover:scale-105"
+        (click)="navigateToBatches()">
+        <div class="p-6 sm:p-8 text-center">
+          <div class="w-16 h-16 sm:w-20 sm:h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <lucide-icon [img]="Archive" class="text-orange-600" size="32"></lucide-icon>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-semibold text-gray-800 mb-2">LOTES</h2>
+          <p class="text-gray-600 text-sm">Producción por lotes</p>
+        </div>
+      </div>
+
+      <!-- CLIENTES Card -->
+      <div
+        class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer transform hover:scale-105"
+        (click)="navigateToClients()">
+        <div class="p-6 sm:p-8 text-center">
+          <div class="w-16 h-16 sm:w-20 sm:h-20 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <lucide-icon [img]="Users" class="text-indigo-600" size="32"></lucide-icon>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-semibold text-gray-800 mb-2">CLIENTES</h2>
+          <p class="text-gray-600 text-sm">Gestión de clientes</p>
+        </div>
+      </div>
+
       <!-- COMPRAS Card -->
       <div
-        class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer transform hover:scale-105">
+        class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer transform hover:scale-105"
+        (click)="navigateToShopping()">
         <div class="p-6 sm:p-8 text-center">
-          <div
-            class="w-16 h-16 sm:w-20 sm:h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div class="w-16 h-16 sm:w-20 sm:h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <lucide-icon [img]="ShoppingCart" class="text-green-600" size="32"></lucide-icon>
           </div>
           <h2 class="text-xl sm:text-2xl font-semibold text-gray-800 mb-2">COMPRAS</h2>
@@ -37,10 +62,10 @@
 
       <!-- NOTAS Card -->
       <div
-        class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer transform hover:scale-105">
+        class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer transform hover:scale-105"
+        (click)="navigateToNotes()">
         <div class="p-6 sm:p-8 text-center">
-          <div
-            class="w-16 h-16 sm:w-20 sm:h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div class="w-16 h-16 sm:w-20 sm:h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <lucide-icon [img]="Edit" class="text-yellow-600" size="32"></lucide-icon>
           </div>
           <h2 class="text-xl sm:text-2xl font-semibold text-gray-800 mb-2">NOTAS</h2>
@@ -50,21 +75,20 @@
 
       <!-- PLAN Card -->
       <div
-        class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer transform hover:scale-105">
+        class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer transform hover:scale-105"
+        (click)="navigateToPlan()">
         <div class="p-6 sm:p-8 text-center">
-          <div
-            class="w-16 h-16 sm:w-20 sm:h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div class="w-16 h-16 sm:w-20 sm:h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <lucide-icon [img]="ClipboardList" class="text-purple-600" size="32"></lucide-icon>
           </div>
           <h2 class="text-xl sm:text-2xl font-semibold text-gray-800 mb-2">PLAN</h2>
-          <p class="text-gray-600 text-sm">Planificación de producción</p>
+          <p class="text-gray-600 text-sim">Planificación de producción</p>
         </div>
       </div>
 
     </div>
   </div>
 
-  <!-- Footer inspirado en la pizarra física -->
   <footer class="mt-12 text-center text-gray-500 text-sm">
     <p>Sistema digitalizado basado en tu proceso manual</p>
   </footer>
