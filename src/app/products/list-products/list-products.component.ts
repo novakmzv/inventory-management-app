@@ -1,15 +1,16 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {LucideAngularModule, Plus, Edit, Trash2, Home} from 'lucide-angular';
-import {Product, ProductService} from '../../../core';
+import {NotificationType, Product, ProductService} from '../../../core';
 import {Router} from '@angular/router';
-import {LoadingOverlayComponent, ConfirmationModalComponent} from '../../../core/components';
+import {LoadingOverlayComponent, ConfirmationModalComponent, NotificationComponent} from '../../../core/components';
 
 @Component({
   selector: 'app-list-products',
   imports: [
     LucideAngularModule,
     LoadingOverlayComponent,
-    ConfirmationModalComponent
+    ConfirmationModalComponent,
+    NotificationComponent
   ],
   templateUrl: './list-products.component.html',
   styleUrl: './list-products.component.css'
@@ -23,12 +24,15 @@ export class ListProductsComponent implements OnInit {
 
   products: Product[] = [];
   loading = false;
-  error: string | null = null;
 
   showConfirmModal = false;
   confirmMessage = '';
   confirmType: 'danger' | 'warning' | 'info' = 'warning';
   confirmAction: (() => void) | null = null;
+
+  showNotification = false;
+  notificationMessage = '';
+  notificationType: NotificationType = 'success';
 
   _productService: ProductService = inject(ProductService);
   _router: Router = inject(Router);
@@ -40,23 +44,23 @@ export class ListProductsComponent implements OnInit {
   private loadProducts() {
 
     this.loading = true;
-    this.error = null;
 
     this._productService.getProducts().subscribe({
       next: (response) => {
 
         if (response.code != 200) {
-          this.error = response.message;
           this.loading = false;
+          this.showErrorNotification('Error al cargar los productos');
           return
         }
 
         this.products = structuredClone(response.data);
         this.loading = false;
+        this.showSuccessNotification('Productos cargados correctamente');
       },
       error: () => {
-        this.error = 'Error al cargar los productos';
         this.loading = false;
+        this.showErrorNotification('Error al cargar los productos');
       }
     });
   }
@@ -93,7 +97,24 @@ export class ListProductsComponent implements OnInit {
   }
 
   private confirmDeleteProduct(id: number) {
+    this.loading = true;
 
+    this._productService.deleteProduct(id).subscribe({
+      next: (response) => {
+
+        if (response.code != 200) {
+          this.loading = false;
+          this.showErrorNotification('Error al eliminar el producto');
+          return;
+        }
+
+        this.showSuccessNotification('Producto eliminado correctamente');
+      },
+      error: () => {
+        this.loading = false;
+        this.showErrorNotification('Error al eliminar el producto');
+      }
+    });
   }
 
   formatPrice(price: number): string {
@@ -101,5 +122,21 @@ export class ListProductsComponent implements OnInit {
       style: 'currency',
       currency: 'PEN'
     }).format(price);
+  }
+
+  onNotificationClose() {
+    this.showNotification = false;
+  }
+
+  private showSuccessNotification(message: string) {
+    this.notificationMessage = message;
+    this.notificationType = 'success';
+    this.showNotification = true;
+  }
+
+  private showErrorNotification(message: string) {
+    this.notificationMessage = message;
+    this.notificationType = 'error';
+    this.showNotification = true;
   }
 }

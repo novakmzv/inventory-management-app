@@ -3,3 +3,5 @@ export interface ApiResponse<T> {
   code: number;
   message: string;
 }
+
+export type NotificationType = 'success' | 'error' | 'warning';

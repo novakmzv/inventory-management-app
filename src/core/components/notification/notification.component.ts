@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
 import { LucideAngularModule, CheckCircle, XCircle, AlertTriangle, X } from 'lucide-angular';
-
-export type NotificationType = 'success' | 'error' | 'warning';
+import {NotificationType} from '../../models/global.model';
 
 @Component({
   selector: 'app-notification',

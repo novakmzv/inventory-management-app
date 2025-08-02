@@ -24,7 +24,7 @@
     </div>
 
     <!-- Empty State -->
-    @if (!loading && !error && products.length === 0) {
+    @if (!loading && products.length === 0) {
       <div class="bg-white rounded-lg shadow p-8 text-center">
         <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
           <lucide-icon [img]="Plus" class="text-gray-400" size="32"></lucide-icon>
@@ -40,7 +40,7 @@
     }
 
     <!-- Products Grid - Desktop/Tablet -->
-    @if (!loading && !error && products.length > 0) {
+    @if (!loading && products.length > 0) {
       <div class="hidden sm:block">
         <div class="bg-white rounded-lg shadow overflow-hidden">
           <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
@@ -105,7 +105,7 @@
     }
 
     <!-- Products Cards - Mobile -->
-    @if (!loading && !error && products.length > 0) {
+    @if (!loading && products.length > 0) {
       <div class="sm:hidden space-y-4">
         @for (product of products; track product.id) {
           <div class="bg-white rounded-lg shadow p-4">
@@ -157,6 +157,14 @@
 </div>
 
 <app-loading-overlay [isBlock]="loading" message="Cargando productos..."></app-loading-overlay>
+
+<app-notification
+  [show]="showNotification"
+  [message]="notificationMessage"
+  [type]="notificationType"
+  [duration]="2000"
+  (close)="onNotificationClose()">
+</app-notification>
 
 <app-confirmation-modal
   [show]="showConfirmModal"
