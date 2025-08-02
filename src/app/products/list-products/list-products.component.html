@@ -1,7 +1,157 @@
-<div class="container mx-auto p-4">
-  <h1 class="text-2xl font-bold mb-6">Lista de Productos</h1>
+<div class="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
+  <div class="max-w-6xl mx-auto">
 
-  <div class="bg-white rounded-lg shadow">
-    <p class="p-4 text-gray-600">Aquí irá la lista de productos...</p>
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
+      <div class="flex items-center gap-3">
+        <!-- Botón Home -->
+        <button
+          (click)="navigateToHome()"
+          class="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors duration-200">
+          <lucide-icon [img]="Home" size="20"></lucide-icon>
+        </button>
+
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">Lista de Productos</h1>
+      </div>
+
+      <!-- Botón Crear Producto -->
+      <button
+        (click)="navigateToCreate()"
+        class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2 transition-colors duration-200 w-full sm:w-auto justify-center">
+        <lucide-icon [img]="Plus" size="20"></lucide-icon>
+        <span>Crear Producto</span>
+      </button>
+    </div>
+
+    <!-- Empty State -->
+    @if (!loading && !error && products.length === 0) {
+      <div class="bg-white rounded-lg shadow p-8 text-center">
+        <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <lucide-icon [img]="Plus" class="text-gray-400" size="32"></lucide-icon>
+        </div>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">No hay productos</h3>
+        <p class="text-gray-600 mb-4">Comienza agregando tu primer producto al inventario.</p>
+        <button
+          (click)="navigateToCreate()"
+          class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg">
+          Crear Primer Producto
+        </button>
+      </div>
+    }
+
+    <!-- Products Grid - Desktop/Tablet -->
+    @if (!loading && !error && products.length > 0) {
+      <div class="hidden sm:block">
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+          <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+            <div class="grid grid-cols-5 gap-4 font-medium text-gray-700">
+              <div>Nombre</div>
+              <div class="text-center">Stock</div>
+              <div class="text-center">Precio</div>
+              <div class="text-center">Descripción</div>
+              <div class="text-center">Acciones</div>
+            </div>
+          </div>
+
+          <div class="divide-y divide-gray-200">
+            @for (product of products; track product.id) {
+              <div class="px-6 py-4 hover:bg-gray-50">
+                <div class="grid grid-cols-5 gap-4 items-center">
+
+                  <div class="font-medium text-gray-900">
+                    {{ product.name }}
+                  </div>
+
+                  <div class="text-center">
+                <span [class]="product.quantity === 0 ? 'bg-red-100 text-red-800' :
+                               product.quantity < 10 ? 'bg-yellow-100 text-yellow-800' :
+                               'bg-green-100 text-green-800'"
+                      class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium">
+                  {{ product.quantity }}
+                </span>
+                  </div>
+
+                  <div class="text-center font-medium text-gray-900">
+                    {{ formatPrice(product.price) }}
+                  </div>
+
+                  <div class="text-center text-sm text-gray-600 truncate">
+                    {{ product.description || 'Sin descripción' }}
+                  </div>
+
+                  <div class="text-center">
+                    <div class="flex items-center justify-center gap-2">
+
+                      <button
+                        (click)="editProduct(product.id!)"
+                        class="p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-colors duration-200">
+                        <lucide-icon [img]="Edit" size="16"></lucide-icon>
+                      </button>
+
+                      <button
+                        (click)="deleteProduct(product.id!, product.name)"
+                        class="p-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-lg transition-colors duration-200">
+                        <lucide-icon [img]="Trash2" size="16"></lucide-icon>
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Products Cards - Mobile -->
+    @if (!loading && !error && products.length > 0) {
+      <div class="sm:hidden space-y-4">
+        @for (product of products; track product.id) {
+          <div class="bg-white rounded-lg shadow p-4">
+            <div class="flex items-start justify-between mb-3">
+              <h3 class="font-medium text-gray-900 text-lg">{{ product.name }}</h3>
+              <div class="flex gap-2">
+                <button
+                  (click)="editProduct(product.id!)"
+                  class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg">
+                  <lucide-icon [img]="Edit" size="16"></lucide-icon>
+                </button>
+                <button
+                  (click)="deleteProduct(product.id!, product.name)"
+                  class="p-2 text-red-600 hover:bg-red-50 rounded-lg">
+                  <lucide-icon [img]="Trash2" size="16"></lucide-icon>
+                </button>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-600">Stock:</span>
+                <span [class]="product.quantity === 0 ? 'bg-red-100 text-red-800' :
+                           product.quantity < 10 ? 'bg-yellow-100 text-yellow-800' :
+                           'bg-green-100 text-green-800'"
+                      class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium">
+              {{ product.quantity }}
+            </span>
+              </div>
+
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-600">Precio:</span>
+                <span class="font-medium text-gray-900">{{ formatPrice(product.price) }}</span>
+              </div>
+
+              @if (product.description) {
+                <div class="border-t pt-2 mt-2">
+                  <span class="text-sm text-gray-600">{{ product.description }}</span>
+                </div>
+              }
+
+            </div>
+          </div>
+        }
+      </div>
+    }
+
   </div>
 </div>
