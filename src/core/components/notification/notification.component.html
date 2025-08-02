@@ -1,0 +1,36 @@
+@if (show) {
+  <div [class]="getNotificationClasses()"
+       style="animation: slideInRight 0.3s ease-out;">
+
+    <div class="flex items-start gap-3">
+
+      <!-- Icono -->
+      <div class="flex-shrink-0 mt-0.5">
+        @if (type === 'success') {
+          <lucide-icon [img]="CheckCircle" [class]="getIconClasses()" size="20"></lucide-icon>
+        } @else if (type === 'error') {
+          <lucide-icon [img]="XCircle" [class]="getIconClasses()" size="20"></lucide-icon>
+        } @else if (type === 'warning') {
+          <lucide-icon [img]="AlertTriangle" [class]="getIconClasses()" size="20"></lucide-icon>
+        }
+      </div>
+
+      <!-- Mensaje -->
+      <div class="flex-1 min-w-0">
+        <p class="text-sm font-medium leading-5 break-words">
+          {{ message }}
+        </p>
+      </div>
+
+      <!-- Botón cerrar -->
+      <button
+        type="button"
+        (click)="closeNotification()"
+        [class]="'flex-shrink-0 p-1.5 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-opacity-50 ' + getCloseButtonClasses()">
+        <lucide-icon [img]="X" size="16"></lucide-icon>
+      </button>
+
+    </div>
+
+  </div>
+}
