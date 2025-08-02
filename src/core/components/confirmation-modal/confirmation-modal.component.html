@@ -1,0 +1,66 @@
+@if (show) {
+  <!-- Backdrop -->
+  <div
+    class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+    (click)="onBackdropClick($event)"
+    style="animation: fadeIn 0.3s ease-out;">
+
+    <!-- Modal Container -->
+    <div
+      class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-auto transform transition-all duration-300 ease-out"
+      style="animation: slideIn 0.3s ease-out;">
+
+      <!-- Header -->
+      <div class="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200">
+        <h3 class="text-lg sm:text-xl font-semibold text-gray-900">
+          {{ title }}
+        </h3>
+        <button
+          type="button"
+          (click)="onCancel()"
+          class="cursor-pointer p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300">
+          <lucide-icon [img]="X" size="20"></lucide-icon>
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div class="p-4 sm:p-6 text-center">
+        <!-- Icon -->
+        <div class="mx-auto flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gray-100 mb-4">
+          <lucide-icon
+            [img]="HelpCircle"
+            [class]="getIconClasses()"
+            [size]="32">
+          </lucide-icon>
+        </div>
+
+        <!-- Message -->
+        <p class="text-gray-700 text-sm sm:text-base leading-relaxed">
+          {{ message }}
+        </p>
+      </div>
+
+      <!-- Footer -->
+      <div class="flex flex-col sm:flex-row gap-3 p-4 sm:p-6 border-t border-gray-200 bg-gray-50 rounded-b-xl">
+
+        <!-- Cancel Button -->
+        <button
+          type="button"
+          (click)="onCancel()"
+          class="cursor-pointer w-full sm:w-auto px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 order-2 sm:order-1">
+          {{ cancelText }}
+        </button>
+
+        <!-- Accept Button -->
+        <button
+          type="button"
+          (click)="onAccept()"
+          [class]="'w-full sm:w-auto order-1 sm:order-2 ' + getAcceptButtonClasses()">
+          {{ acceptText }}
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+}
