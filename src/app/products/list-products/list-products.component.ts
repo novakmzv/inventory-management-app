@@ -2,11 +2,13 @@ import {Component, inject, OnInit} from '@angular/core';
 import {LucideAngularModule, Plus, Edit, Trash2,Home} from 'lucide-angular';
 import {Product, ProductService} from '../../../core';
 import {Router} from '@angular/router';
+import {LoadingOverlayComponent} from '../../../core/components/loading-overlay/loading-overlay.component';
 
 @Component({
   selector: 'app-list-products',
   imports: [
-    LucideAngularModule
+    LucideAngularModule,
+    LoadingOverlayComponent
   ],
   templateUrl: './list-products.component.html',
   styleUrl: './list-products.component.css'
