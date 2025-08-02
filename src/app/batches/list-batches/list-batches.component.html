@@ -1,0 +1,219 @@
+<div class="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
+  <div class="max-w-6xl mx-auto">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
+      <div class="flex items-center gap-3">
+        <!-- Botón Home -->
+        <button
+          (click)="navigateToHome()"
+          class="cursor-pointer p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors duration-200">
+          <lucide-icon [img]="Home" size="20"></lucide-icon>
+        </button>
+
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">Lista de lotes</h1>
+      </div>
+
+      <!-- Botón Crear Lote -->
+      <button
+        (click)="navigateToCreate()"
+        class="cursor-pointer bg-orange-600 hover:bg-orange-700 text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2 transition-colors duration-200 w-full sm:w-auto justify-center">
+        <lucide-icon [img]="Plus" size="20"></lucide-icon>
+        <span>Crear lote</span>
+      </button>
+    </div>
+
+    <!-- Empty State -->
+    @if (!loading && !error && batches.length === 0) {
+      <div class="bg-white rounded-lg shadow p-8 text-center">
+        <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <lucide-icon [img]="Archive" class="text-orange-400" size="32"></lucide-icon>
+        </div>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">No hay lotes</h3>
+        <p class="text-gray-600 mb-4">Comienza creando tu primer lote de producción.</p>
+        <button
+          (click)="navigateToCreate()"
+          class="cursor-pointer bg-orange-600 hover:bg-orange-700 text-white font-medium py-2 px-4 rounded-lg">
+          Crear primer lote
+        </button>
+      </div>
+    }
+
+    <!-- Batches Grid - Desktop/Tablet -->
+    @if (!loading && !error && batches.length > 0) {
+      <div class="hidden sm:block">
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+          <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+            <div class="grid grid-cols-6 gap-4 font-medium text-gray-700">
+              <div class="flex items-center gap-2">
+                <lucide-icon [img]="Calendar" size="16"></lucide-icon>
+                <span>Fecha</span>
+              </div>
+              <div class="text-center">Estado</div>
+              <div class="text-center">
+                <div class="flex items-center justify-center gap-1">
+                  <lucide-icon [img]="Package2" size="16"></lucide-icon>
+                  <span>Productos</span>
+                </div>
+              </div>
+              <div class="text-center">Total items</div>
+              <div class="text-center">Descripción</div>
+              <div class="text-center">Acciones</div>
+            </div>
+          </div>
+
+          <div class="divide-y divide-gray-200">
+            @for (batch of batches; track batch.id) {
+              <div class="px-6 py-4 hover:bg-gray-50 transition-colors duration-200">
+                <div class="grid grid-cols-6 gap-4 items-center">
+
+                  <!-- Fecha -->
+                  <div class="font-medium text-gray-900">
+                    {{ formatDate(batch.production_date) }}
+                  </div>
+
+                  <!-- Estado -->
+                  <div class="text-center">
+                    <span [class]="getBatchStatusClasses(batch.production_date)"
+                          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium">
+                      {{ getBatchStatusText(batch.production_date) }}
+                    </span>
+                  </div>
+
+                  <!-- Productos -->
+                  <div class="text-center text-sm text-gray-600">
+                    {{ batch.products?.length || 0 }} tipos
+                  </div>
+
+                  <!-- Total Items -->
+                  <div class="text-center">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
+                      {{ getTotalProducts(batch) }}
+                    </span>
+                  </div>
+
+                  <!-- Descripción -->
+                  <div class="text-center text-sm text-gray-600 truncate">
+                    {{ batch.description || 'Sin descripción' }}
+                  </div>
+
+                  <!-- Acciones -->
+                  <div class="text-center">
+                    <div class="flex items-center justify-center gap-2">
+                      <button
+                        (click)="editBatch(batch.id!)"
+                        class="cursor-pointer p-2 text-orange-600 hover:text-orange-800 hover:bg-orange-50 rounded-lg transition-colors duration-200">
+                        <lucide-icon [img]="Edit" size="16"></lucide-icon>
+                      </button>
+                      <button
+                        (click)="deleteBatch(batch.id!, batch.production_date)"
+                        class="cursor-pointer p-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-lg transition-colors duration-200">
+                        <lucide-icon [img]="Trash2" size="16"></lucide-icon>
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Batches Cards - Mobile -->
+    @if (!loading && !error && batches.length > 0) {
+      <div class="sm:hidden space-y-4">
+        @for (batch of batches; track batch.id) {
+          <div class="bg-white rounded-lg shadow p-4">
+            <div class="flex items-start justify-between mb-3">
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-1">
+                  <lucide-icon [img]="Calendar" class="text-gray-400" size="16"></lucide-icon>
+                  <h3 class="font-medium text-gray-900">{{ formatDate(batch.production_date) }}</h3>
+                </div>
+                <span [class]="getBatchStatusClasses(batch.production_date)"
+                      class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium">
+                  {{ getBatchStatusText(batch.production_date) }}
+                </span>
+              </div>
+              <div class="flex gap-2">
+                <button
+                  (click)="editBatch(batch.id!)"
+                  class="cursor-pointer p-2 text-orange-600 hover:bg-orange-50 rounded-lg">
+                  <lucide-icon [img]="Edit" size="16"></lucide-icon>
+                </button>
+                <button
+                  (click)="deleteBatch(batch.id!, batch.production_date)"
+                  class="cursor-pointer p-2 text-red-600 hover:bg-red-50 rounded-lg">
+                  <lucide-icon [img]="Trash2" size="16"></lucide-icon>
+                </button>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-600">Tipos de productos:</span>
+                <span class="font-medium text-gray-900">{{ batch.products?.length || 0 }}</span>
+              </div>
+
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-600">Total items:</span>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
+                  {{ getTotalProducts(batch) }}
+                </span>
+              </div>
+
+              @if (batch.description) {
+                <div class="border-t pt-2 mt-2">
+                  <span class="text-sm text-gray-600">{{ batch.description }}</span>
+                </div>
+              }
+
+              @if (batch.products && batch.products.length > 0) {
+                <div class="border-t pt-2 mt-2">
+                  <p class="text-xs text-gray-500 mb-1">Productos en este lote:</p>
+                  <div class="flex flex-wrap gap-1">
+                    @for (product of batch.products; track product.id) {
+                      <span class="inline-flex items-center px-2 py-1 rounded text-xs bg-gray-100 text-gray-700">
+                        {{ product.name }} ({{ product.quantity }})
+                      </span>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+  </div>
+</div>
+
+<!-- Notification Component -->
+<app-notification
+  [show]="showNotification"
+  [message]="notificationMessage"
+  [type]="notificationType"
+  [duration]="3000"
+  (close)="onNotificationClose()">
+</app-notification>
+
+<!-- Confirmation Modal -->
+<app-confirmation-modal
+  [show]="showConfirmModal"
+  [message]="confirmMessage"
+  [type]="confirmType"
+  title="Confirmar acción"
+  acceptText="Eliminar"
+  cancelText="Cancelar"
+  (accept)="onConfirmAccept()"
+  (cancel)="onConfirmCancel()">
+</app-confirmation-modal>
+
+<!-- Loading Overlay -->
+<app-loading-overlay
+  [isBlock]="loading"
+  message="Cargando lotes...">
+</app-loading-overlay>
