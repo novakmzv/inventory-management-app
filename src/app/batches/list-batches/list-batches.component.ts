@@ -29,13 +29,11 @@ export class ListBatchesComponent implements OnInit {
   loading = false;
   error: string | null = null;
 
-  // Propiedades para modal de confirmación
   showConfirmModal = false;
   confirmMessage = '';
   confirmType: 'danger' | 'warning' | 'info' = 'warning';
   confirmAction: (() => void) | null = null;
 
-  // Propiedades para notificaciones
   showNotification = false;
   notificationMessage = '';
   notificationType: NotificationType = 'success';
