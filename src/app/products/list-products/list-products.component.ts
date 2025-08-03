@@ -1,8 +1,14 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {LucideAngularModule, Plus, Edit, Trash2, Home} from 'lucide-angular';
-import {NotificationType, Product, ProductService} from '../../../core';
+import {
+  NotificationType,
+  Product,
+  ProductService,
+  LoadingOverlayComponent,
+  ConfirmationModalComponent,
+  NotificationComponent
+} from '../../../core';
 import {Router} from '@angular/router';
-import {LoadingOverlayComponent, ConfirmationModalComponent, NotificationComponent} from '../../../core';
 
 @Component({
   selector: 'app-list-products',

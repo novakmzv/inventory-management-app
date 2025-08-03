@@ -1,7 +1,7 @@
-import { Component, inject, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { LucideAngularModule, Save } from 'lucide-angular';
-import { Product } from '../../../core';
+import {Component, inject, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges} from '@angular/core';
+import {FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
+import {LucideAngularModule, Save} from 'lucide-angular';
+import {Product} from '../../../core';
 
 @Component({
   selector: 'app-form-product',
@@ -45,9 +45,9 @@ export class FormProductComponent implements OnInit, OnChanges {
 
   private createForm(): FormGroup {
     return this._formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
-      quantity: [0, [Validators.required, Validators.min(0)]],
-      price: [0, [Validators.required, Validators.min(0.01)]],
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(500)]],
+      quantity: [0, [Validators.required]],
+      price: [0, [Validators.required]],
       description: ['', [Validators.maxLength(500)]]
     });
   }

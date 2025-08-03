@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Product, ApiResponse } from '..';
+import {Product, ApiResponse, ProductRequest} from '..';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class ProductService {
     return this.http.get<ApiResponse<Product>>(`products/${id}`);
   }
 
-  createProduct(product: Omit<Product, 'id' | 'created_at' | 'updated_at'>): Observable<ApiResponse<Product>> {
+  createProduct(product: ProductRequest): Observable<ApiResponse<Product>> {
     return this.http.post<ApiResponse<Product>>('products', product);
   }
 

@@ -1,9 +1,14 @@
-import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { LucideAngularModule, ArrowLeft } from 'lucide-angular';
-import {NotificationType, ProductService} from '../../../core';
-import { LoadingOverlayComponent, NotificationComponent } from '../../../core/components';
-import { FormProductComponent } from '../form-product/form-product.component';
+import {Component, inject} from '@angular/core';
+import {Router} from '@angular/router';
+import {LucideAngularModule, ArrowLeft} from 'lucide-angular';
+import {
+  LoadingOverlayComponent,
+  NotificationComponent,
+  NotificationType,
+  ProductRequest,
+  ProductService
+} from '../../../core';
+import {FormProductComponent} from '../form-product/form-product.component';
 
 @Component({
   selector: 'app-create-product',
@@ -33,7 +38,7 @@ export class CreateProductComponent {
     await this._router.navigate(['/products/list']);
   }
 
-  onFormSubmit(productData: any) {
+  onFormSubmit(productData: ProductRequest) {
     this.loading = true;
 
     this._productService.createProduct(productData).subscribe({
