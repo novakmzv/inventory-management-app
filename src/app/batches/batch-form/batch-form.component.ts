@@ -118,7 +118,6 @@ export class BatchFormComponent implements OnInit {
     this.formCancel.emit();
   }
 
-  // Métodos de validación simplificados
   isFieldInvalid(fieldName: string): boolean {
     const field = this.batchForm.get(fieldName);
     return !!(field?.invalid && field?.touched);
